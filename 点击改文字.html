@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+
+
+<textarea  id="text_box" readonly="true"  style="width:400px; height:130px;">
+设置readonly="true"使网页不能修改内容，点击修改按钮readonly="false"才可以修改！
+</textarea>
+
+<h4>js控制修改文字</h4>
+<input type=button value="修改" onclick="document.all.text_box.readOnly=false" >
+
+
+    <div id="test">点击修改文字</div>
+    <script type="text/javascript">
+        var test = document.getElementById("test");
+        var newHtml = document.createElement("input"),
+            val = test.innerHTML;
+
+            newHtml.type = "text";
+            newHtml.value = val;
+
+        newHtml.onblur = function(){
+                test.innerHTML=this.value ? this.value : val;
+            };
+
+        test.onclick = function(){
+            //test.ondblclick  双击
+            test.innerHTML = "";
+            test.appendChild(newHtml);
+            newHtml.focus();
+        }
+    </script>
+</body>
+</html>
+
+

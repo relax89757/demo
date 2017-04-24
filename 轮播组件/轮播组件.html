@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>UI组件</title>
+    <style type="text/css">
+        body{
+            text-align: center;
+        }
+        #my-slider.slider-list{
+            width: 520px;
+            height:280px;
+            /*overflow: hidden;*/
+            margin: 0 auto;
+            position: relative;
+        }
+        .slider-list>ul{
+            margin: 0;
+            padding: 0;
+            list-style:none;
+            /*position:relative;*/
+        }
+        .slider-list__item{
+           
+            position: absolute;
+            top:0;
+            left:0;
+            opacity: 0;
+            transition: opacity 1s;
+        }
+        .selected{
+            opacity: 1;
+            transition: opacity 1s;
+        }
+        .slider-list__item>img{
+            width: 100%;
+            height: 100%;
+        }
+        .slider-list__control{
+            
+            display: flex;
+            background: rgba(255, 255, 255, 0.5);
+            padding: 5px;
+            border-radius: 10px;
+            position: absolute;
+            bottom: 8px;
+            left: 50%;
+            transform: translate(-50%, 0);
+        }
+        .slider-list__control-buttons{
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #fff;
+            margin: 0 4px;
+            cursor: pointer;
+        }
+        .on{
+            background: red;
+        }
+        .slider-list__btn{
+            display: none;
+        }
+        .slider-list__btn>span{
+            width: 40px;
+            height: 40px;
+            background: #fff;
+            opacity: .5;
+            border-radius: 50%;
+            position: absolute;
+            top: 50%;
+            transform: translate(0, -50%);
+            line-height: 40px;
+            
+        }
+        .dn{
+            display: none;
+        }
+        .db{
+            display: block;
+        }
+        .slider-list__btn>span>i{
+             display:inline-block;
+            width:20px;
+            height:20px;
+            box-sizing: border-box;
+            border: 10px solid transparent;
+        }
+        .slider-list__btn>span:hover{
+            opacity: .8;
+        }
+        .slider-list__btn>span.pre{
+            left: 4%;
+        }
+        .slider-list__btn>span.pre>i{
+            border-right: 10px solid red;
+            margin: 10px 14px 10px 0;
+        }
+        .slider-list__btn>span.next>i{
+            border-left: 10px solid red;
+            margin: 10px 10px 10px 16px;
+        }
+        .slider-list__btn>span.next{
+            right: 4%;
+        }
+    </style>    
+</head>
+<body>
+    
+    <h2>轮播组件</h2>
+    <div id="my-slider" class="slider-list">
+        <ul>
+            <li class="slider-list__item selected"><img src="./pic/01.jpg" alt=""></li>
+            <li class="slider-list__item"><img src="./pic/02.jpg" alt=""></li>
+            <li class="slider-list__item"><img src="./pic/03.jpg" alt=""></li>
+            <li class="slider-list__item"><img src="./pic/04.jpg" alt=""></li>
+        </ul>
+        <div class="slider-list__control">
+            <span class="slider-list__control-buttons on"></span>
+            <span class="slider-list__control-buttons"></span>
+            <span class="slider-list__control-buttons"></span>
+            <span class="slider-list__control-buttons"></span>
+        </div>
+        <div class="slider-list__btn dn">
+            <span class="pre"><i ></i></span>
+            <span class="next"><i></i></span>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        class Slider{
+            constructor(id, cycle = 2000, btn = true){
+                this.container = document.getElementById(id);
+                this.items = this.container.querySelectorAll('.slider-list__item');
+                this.cycle = cycle;
+                this.hasBtn = btn;
+                this.slideHandlers = [];
+
+                let controller = this.container.querySelector('.slider-list__control');
+                if(controller){
+                  let buttons = controller.querySelectorAll('.slider-list__control-buttons');
+                  controller.addEventListener('mouseover', e=>{
+                    var idx = Array.from(buttons).indexOf(e.target);
+                    console.log(idx);
+                    if(idx >= 0){
+                      this.slideTo(idx);
+                      this.stop();
+                    }
+                  });
+                  
+                  controller.addEventListener('mouseout', e=>{
+                    this.start();
+                  });
+
+                  this.addSlideListener(function(idx){
+                    let on = controller.querySelector('.on');
+                    if(on) on.classList.remove('on');
+                    buttons[idx].classList.add('on');
+                  });
+                }
+                
+                let btns = this.container.querySelector('.slider-list__btn'),
+                    preIcon = btns.querySelector('.pre'),
+                    nextIcon = btns.querySelector('.next');
+                
+                this.container.onmouseover = () => {
+                    this.stop();
+                    console.log(this.hasBtn);
+                    if(this.hasBtn){
+                        btns.classList.add('db');
+                    }
+                }
+                this.container.onmouseout = () => {
+                    this.start();
+                    btns.classList.remove('db');
+                }
+                preIcon.onclick = () => slidePrevious();
+                nextIcon.onclick = () => this.slideNext();
+
+            }
+            getSelectedItem(){
+                let selected = this.container.querySelector('.selected');
+                return selected;
+            }
+            getSelectedItemIndex(){
+                var list = Array.prototype.slice.call(this.items);
+                return list.indexOf(this.getSelectedItem());
+            }
+            slideTo(idx){
+                let selected = this.getSelectedItem();
+                if(selected){
+                    selected.classList.remove('selected');
+                }
+                let item = this.items[idx];
+                if(item){
+                    item.classList.add('selected');
+                }
+                this.slideHandlers.forEach(handler=>{
+                    handler(idx);
+                })
+                
+            }
+            slideNext(){
+                let currentIdx = this.getSelectedItemIndex();
+                let nextIdx = (currentIdx+1) % this.items.length;
+                this.slideTo(nextIdx);
+            }
+            slidePrevious(){
+                let currentIdx = this.getSelectedItemIndex();
+                let preIdx = (currentIdx-1) % this.ietms.length;
+                this.slideTo(preIdx);
+            }
+            addSlideListener(handler){
+                this.slideHandlers.push(handler);
+            }
+            start(){
+                this.stop();
+                this._timer = setInterval(()=>this.slideNext(), this.cycle);
+            }
+            stop(){
+                clearInterval(this._timer);
+            }
+            
+        }
+
+        const slider = new Slider('my-slider');
+        slider.start();
+
+    </script>
+</body>
+</html>

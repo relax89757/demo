@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>cart</title>
+    <style type="text/css">
+    *{padding:0;margin:0;font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;}
+    ul{list-style: none;}
+    header{
+        background: #f8f8f8;
+        border-bottom: 1px solid #e7e7e7;
+    }
+    header ul{
+        max-width: 1000px;
+        list-style: none;
+        font-size: 24px;
+        margin:0 auto;
+        
+    }
+    header ul>li{
+        display: inline-block;
+        
+    }
+    
+    header ul>li>a{
+        display: block;
+        color: black;
+        text-decoration: none;
+        /*margin-right: 20px;*/
+        padding:10px;
+        line-height: 28px;
+    }
+    header a:hover{
+        background:#eee;
+        
+    }
+    .icon {
+       width: 1em; height: 1em;
+       vertical-align: -0.15em;
+       fill: currentColor;
+       overflow: hidden;
+       margin:0 4px;
+    }
+    .cart{
+        max-width: 1000px;
+        
+        margin: 40px auto;
+        
+        border:1px solid #ebccd1;
+        overflow: hidden;
+        border-radius: 4px;
+        position: relative;
+    }
+    .cart-header{
+        height: 20px;
+        padding: 10px 20px;
+        line-height: 20px;
+        background: #f2dede;
+        color: #a94442;
+        border-color: #ebccd1;
+        font-size: 20px;
+    }
+    .all{
+       
+        font-weight: 700;
+    }
+    .cart-body{
+        min-height: 30px;
+        line-height:30px;
+        padding: 20px;
+        
+    }
+    .product>li{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin:10px;
+        line-height: 30px;
+    }
+    .detail{
+        width: 100%;
+        min-height: 30px;
+        display: flex;
+        align-items: center;
+        /*justify-content: space-between;*/
+    }
+    .cha{
+        cursor: pointer;
+    }
+    .price{
+        float: right;
+    }
+    .info{
+        font-size: 14px;
+        height: 20px;
+        line-height: 20px;
+        padding: 4px;
+        background: #5cb85c;
+        border-radius: 2px;
+        margin: 0 10px;
+        color: white;
+        font-weight: 700;
+    }
+    .num{
+        width:20px;
+        height:14px;
+        background:#d9534f;
+        color: white;
+        font-weight:700;
+        font-size:14px;
+        line-height:14px;
+        text-align: center;
+        border-radius:14px;
+        display:inline-block;
+        margin: 0 0 0 4px;
+    }
+    .cart-footer{
+        height: 40px;
+        padding: 10px 20px;
+        background: #ddd;
+        
+    }
+    button{
+        width: 100%;
+        height: 40px;
+        color: white;
+        background: #d9534f;
+        border-radius: 4px;
+        border: 1px solid #d43f3a;
+        box-shadow: none;
+        /*margin:0 auto;*/
+        font-size: 16px;
+    }
+    .empty{
+        max-width: 1000px;
+        
+        margin: 40px auto;
+        
+        
+        overflow: hidden;
+        border-radius: 4px;
+
+
+        border: 2px dashed #aaa;
+        border-radius: 4px;
+        max-width:1000px;
+        
+        text-align: center;
+        padding:100px;
+        display:none;
+    }
+    
+    .fr{
+        float: right;
+    }
+    
+    </style>
+<script type="text/javascript" src="http://at.alicdn.com/t/font_nx9u7uhu4qme7b9.js"></script>
+    
+</head>
+<body>
+<header>
+        <ul>
+            <li><a href="./index.html">首页</a></li>
+            <li><a href="./cart.html">购物车</a></li>
+        </ul>
+    </header>
+    <div class="empty">
+        购物车空空如也
+    </div>
+    <div class="cart">
+        <div class="cart-header">
+            <svg class="icon" aria-hidden="true">
+                <use xlink:href="#icon-gouwuche"></use>
+            </svg>
+            <span>购物车</span><span class="all fr">总计：0</span>
+        </div>
+        <div class="cart-body">
+            
+                <ul class="product">
+                    <!-- <li>
+                    <div class="detail">
+                        <svg class="icon cha" aria-hidden="true">
+                            <use xlink:href="#icon-cha"></use>
+                        </svg>
+                        Apple/苹果 iPhone6s <span class="info">深空灰色，64GB</span> <span class="num">1</span>
+                    </div>
+                    <div class="price">6088</div>
+                    </li> -->
+                </ul>
+             
+        </div>   
+        <div class="cart-footer">
+        <button>
+            <span>结算</span>
+            <svg class="icon" aria-hidden="true">
+                <use xlink:href="#icon-jiantou"></use>
+            </svg>
+        </button>
+            
+        </div> 
+    </div>
+    <script type="text/javascript">
+        window.onload = function(){
+            //var carts =  JSON.parse(localStorage.getItem("carts"));
+            var carts =  localStorage.getItem('carts');
+            var carts = JSON.parse(carts);
+            
+            var product = document.querySelector('.product'),
+                empty = document.querySelector('.empty'),
+                all = document.querySelector('.all'),
+                cart = document.querySelector('.cart');
+            var tpl = '';
+
+            if(!carts){
+                empty.style.display = 'block';
+                cart.style.display = 'none';
+            }else{
+                empty.style.display = 'none';
+                render(carts);
+            }
+        function render(carts){
+            var allPrice = 0,
+                lineprice=0;
+            for (var i = 0; i < carts.length; i++) {
+                tpl += '<li><div class="detail"><svg class="icon cha" aria-hidden="true">'
+                +'<use xlink:href="#icon-cha"></use></svg>'
+                +'Apple/苹果 iPhone6s <span class="info">'
+                + carts[i].color + ',' 
+                + carts[i].rom + '</span><span class="num">'
+                + carts[i].qty + '</span></div><div class="price">';
+                
+                var price = carts[i].price;
+                var money = parseInt(price.substring(1));
+                lineprice = money*carts[i].qty;
+
+                tpl += '￥' + lineprice + '</div>';
+                allPrice += money;
+
+            }
+
+            product.innerHTML = tpl;
+            all.innerHTML ='总计：￥'+allPrice;
+        }    
+        
+                
+
+            
+            console.log(tpl);
+        }
+    </script>
+</body>
+</html>

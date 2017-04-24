@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>qq</title>
+    <style type="text/css">
+    *{padding:0;margin:0;box-sizing: border-box;}
+    body{
+        position: relative;
+    }
+        .qqbox{
+            width: 400px;
+            height: 250px;
+            background: #f6f6f6;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0px 0px 6px rgba(0, 0, 0, .6);
+            position: absolute;
+            top: 60px;
+            left: 30%;
+        }
+        .login{
+            width: 200px;
+            height: 44px;
+            background: url(images/login_window_logo.png);
+            background-position: 200px 0;
+            margin: 20px auto;
+            cursor: pointer;
+        }
+        img{
+            position: absolute;
+            top: -10px;
+            right: -10px;
+        }
+        .content{
+            width: 240px;
+            margin: 20px auto;
+            font-size: 16px;
+        }
+        .info{
+            margin-top: 20px;
+        }
+        .info span{
+            padding-right: 6px;
+            font-weight: 700;   
+        }
+        input{
+            font-size: 16px;
+            text-indent: 4px;
+            width: 190px;
+            border-radius: 16px;
+            outline: none;
+            border: 1px #ccc solid;
+            padding:4px;
+        }
+        .btn{
+            width: 110px;
+            height: 40px;
+            background: url(images/login_btn.png);
+            background-position: 110px 0;
+            margin: 20px 10px;
+        }
+        .login-tigger{
+            width: 80px;
+            height: 20px;
+            position:absolute;
+            left: 230px;
+            bottom: 40px;
+            display: flex;
+            justify-content:space-around;
+            align-items: center;
+        }
+        .login-tigger>i{
+            
+            width: 14px;
+            height: 14px;
+            
+        }
+        .down{
+            width: 10px;
+            height: 14px;
+            background: url(images/ptlogin.png);
+            background-position: 0 14px;
+            margin-top: 6px;
+        }
+        .state{
+            
+            font-size: 14px;
+            line-height: 20px;
+            margin-left: -4px;
+        }
+        .mask{
+            width: 100px;
+            background: #fff;
+            border: 1px solid #000;
+            list-style: none;
+            position:absolute;
+            left: 228px;
+            top: 210px;
+            display: none;
+            
+        }
+        .mask>li{
+            font-size: 14px;
+            padding: 4px;
+            line-height: 20px;
+            display: flex;
+            align-items: center;
+        }
+        .mask>li:hover{
+            background: #ccc;
+        }
+        .mask>li>i{
+            display:inline-block;
+            width:14px;
+            height:14px;
+            margin-right: 8px;
+
+        }
+        .online{
+            background: url(images/ptlogin.png) 0 0;
+        }
+        .callme{
+            background: url(images/ptlogin.png) -72px 0;
+        }
+        .away{
+            background: url(images/ptlogin.png) -18px 0;
+        }
+        .busy{
+            background: url(images/ptlogin.png) -54px 0;
+        }
+        .selint{
+            background: url(images/ptlogin.png) -36px 0;
+        }
+        .hidden{
+            background: url(images/ptlogin.png) -54px 0;
+        }
+        footer{
+
+            width: 100%;
+            height: 60px;
+            background: #8c8c8c;
+            border-top:1px solid #666;
+            position:fixed;
+            bottom:0;
+        }
+        .qqicon{
+            width: 40px;
+            height: 40px;
+            border:1px solid #666;
+            border-radius: 10px;
+            background: url(images/login_window_logo.png);
+            background-position: 158px 2px;
+            margin: 10px auto;
+            display:none;
+        }
+        .playing{
+            box-shadow: 0 0 0px 2px rgba(255, 255, 255, 0.6);
+        }
+    </style>
+</head>
+<body>
+    <div class="qqbox">
+        <div class="login"></div>
+        <img class="closeBtn" src="images/boxy_btn.png">
+        <div class="content">
+            <div class="info"><span>账号:</span><input type="text" placeholder="请输入QQ帐号或Email"></div>
+            <div class="info"><span>密码:</span><input type="password" placeholder="请输入QQ密码"></div>
+            <div class="btn"></div>
+            <div class="login-tigger">
+                <i class="online"></i>
+                <div class="down"></div>
+                <div class="state">在线</div>
+            </div>
+            <ul class="mask">
+                <li><i class="online"></i><span>在线</span></li>
+                <li><i class="callme"></i><span>Q我</span></li>
+                <li><i class="away"></i><span>离开</span></li>
+                <li><i class="busy"></i><span>忙碌</span></li>
+                <li><i class="selint"></i><span>勿扰</span></li>
+                <li><i class="hidden"></i><span>隐身</span></li>
+            </ul>
+        </div>
+    </div>
+    <footer>
+        <div class="qqicon"></div>
+    </footer>
+
+    <script type="text/javascript">
+        var login = document.querySelector('.login'),
+            qqbox = document.querySelector('.qqbox'),
+            qqicon = document.querySelector('.qqicon'),
+            down = document.querySelector('.down'),
+            mask = document.querySelector('.mask'),
+            state = document.querySelector('.state'),
+            icon = document.querySelector('.login-tigger>i'),
+            closeBtn = document.querySelector('.closeBtn');
+        login.onmousedown = function(e){
+            var disX = e.clientX - qqbox.offsetLeft,
+                disY = e.clientY - qqbox.offsetTop;
+                
+            document.onmousemove = function(e){
+                
+                var l = e.clientX - disX,
+                    t = e.clientY - disY,
+                    winX = document.documentElement.clientWidth,
+                    winY = document.documentElement.clientHeight,
+                    maxX = winX - qqbox.offsetWidth - 10,
+                    maxY = winY - qqbox.offsetHeight - 60;
+                    console.log(winX);
+                if(l<0){
+                    l = 0;
+                }else if(l>maxX){
+                    l = maxX;
+                }
+
+                if(t<8){
+                    t = 8;
+                }else if(t>maxY){
+                    t = maxY;
+                }
+
+                qqbox.style.left = l +'px';
+                qqbox.style.top = t +'px';
+            }
+            document.onmouseup = function(){
+                document.onmousemove = null;
+                document.onmouseup = null;
+            }
+        }
+
+        closeBtn.onclick = function(){
+            qqbox.style.display = 'none';
+            qqicon.style.display = 'block';
+            qqicon.classList.remove('playing');
+        }
+
+        qqicon.onclick = function(){
+            qqbox.style.display = 'block';
+            qqicon.classList.add('playing');
+        }
+
+        down.onclick = function(){
+            mask.style.display = 'block';
+        }
+
+        mask.addEventListener('click', function(e){
+            e.stopPropagation();
+            if(e.target.nodeName.toLowerCase() === 'span'){
+                
+                console.log(e.target.innerHTML);
+                var text = e.target.innerHTML,
+                    iclass = e.target.previousSibling.className;
+                    console.log(iclass);
+                state.innerHTML = text;
+                icon.className = iclass;
+                mask.style.display = 'none';
+            }
+        },false);
+    </script>
+</body>
+</html>
