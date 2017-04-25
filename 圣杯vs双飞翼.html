@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>圣杯vs双飞翼</title>
+    <style>
+        *{box-sizing: border-box;}
+        body{background-color: #f9f9f9;text-align: center;}
+        
+        header,footer{
+            width: 100%;
+            height: 60px;
+            background-color: #add8e6;
+            overflow:hidden;
+        }
+        .content{
+            color: #fff;
+            height:200px;
+            padding: 0 100px 0 60px;
+
+        }
+
+        .content>.main{
+            width:100%;
+            height:200px;
+            background-color: #666;
+            float:left;
+        }
+        .content>.left{
+            width:60px;
+            height:200px;
+            background-color: #369;
+            float:left;
+            position:relative;
+            left: -60px;
+            margin-left:-100%;
+        }
+        .content>.right{
+            width:100px;
+            height:200px;
+            background-color: #369;
+            float:left;
+            position:relative;
+            left: 100px;
+            margin-left:-100px;
+        }
+        .content2{
+            background-color: red;
+            color: #fff;
+            height:200px;
+        }
+        .content2 ::selection {
+            color:#fff;
+            background-color: #b46100 ;
+        }
+        .content2>.main{
+            width:100%;
+            height:200px;
+            background-color: #666;
+            float:left;
+        }
+        .content2>.main>.wrap{
+            height:200px;
+            background-color: #369;
+            margin: 0 100px 0 60px;
+            overflow:hidden;
+        }
+        .content2>.left{
+            width:60px;
+            height:200px;
+            background-color: #999;
+            float:left;
+            margin-left:-100%;
+        }
+        .content2>.right{
+            width:100px;
+            height:200px;
+            background-color: #999;
+            float:left;
+            margin-left:-100px;
+        }
+    </style>
+</head>
+<body>
+    
+        <header><h4>头部</h4></header>
+        <div class="content">
+            <div class="main">
+                <h4>圣杯-中间弹性区</h4>
+                <p>圣杯布局是指两边顶宽中间自适应的三栏布局，中间栏要放在文档流前面以优先渲染，其流程为（1）先为左、中、右三个子元素设置float:left;（2）设置container的左右padding，用于预留左右边栏的空间，（3）给左、右边栏设置position:relative让其移动，左边栏设置margin：-100%让跑到上面，给右边栏设置margin负本身宽度让其跑到上面</p>
+            </div>
+            <div class="left">
+                <h4>左侧边栏</h4>
+            </div>
+            <div class="right">
+                <h4>右侧边栏</h4>
+            </div>
+        </div>
+        <h2>双飞翼布局是通过新建的div的外边距隔离各列，而圣杯布局则是通过父容器的内边距来实现各列的间隙。</h2>
+        <div class="content2">
+            <div class="main">
+                <div class="wrap">
+                    <h4>双飞翼-中间弹性区</h4>
+                    <p>双飞翼布局，前面一半思路和圣杯一样，
+(1)创建父元素并包裹三个浮动的子元素，给该中间元素设置合适的margin值来解决左右栏的遮盖问题。(2)然后在中间栏中加一个新的元素设置宽为100%。左右边栏固定宽度， (3)设定左右栏负margin，使左右栏显示在中间栏两侧。 </p>
+<p>双飞翼相对圣杯布局多增加了一个div，但是不用设置左右边栏的position:relative,相比更简洁一点</p>
+                </div>    
+            </div>
+            <div class="left">
+                <h4>左侧边栏</h4>
+            </div>
+            <div class="right">
+                <h4>右侧边栏</h4>
+            </div>
+        </div>
+        <footer><h4>尾部</h4></footer>
+    
+</body>
+</html>

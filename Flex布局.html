@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Flex骰子布局</title>
+    <style type="text/css">
+        *{
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+        h2{
+            padding:40px 0 20px 0;
+        }
+        .box{
+            width: 80%;
+            background: #eee;
+            border: 1px solid #ccc;
+            margin:0 auto;
+            padding: 40px 60px;
+            display: flex;
+            justify-content: space-around;
+            flex-flow: row wrap;
+        }
+        .content{
+            width: 200px;
+            height: 200px;
+            background: #d2d2d2;
+            border: 2px solid #000;
+            border-radius: 10px;
+            padding: 10px;
+            margin: 20px;
+            /*position:relative;*/
+            display: flex;
+            
+        }
+        .cirle{
+            display:block;
+            width: 40px;
+            height: 40px;
+            background: #000;
+            border: 2px solid #000;
+            border-radius: 20px;
+            margin: 8px;
+            /*position: absolute;
+            margin:auto;
+            top:0;
+            bottom:0;
+            left:0;
+            right:0;*/
+        }
+        .one{
+            justify-content: center;  /*主轴对齐方式*/
+            align-items: center;    /*交叉轴对齐方式*/
+        }
+        .two{
+            justify-content: space-around;
+            flex-flow: column wrap;  /*排列方向和是否换行*/
+            align-items: center;    
+        }
+        .three{
+            justify-content: space-around;
+        }
+        .three .cirle:nth-child(2){
+            align-self: center; /*子元素对齐方式*/
+        }
+        .three .cirle:nth-child(3){
+            align-self: flex-end;
+        }
+        .four{
+            justify-content: center;
+            align-items: center;
+        }
+        .five{
+            flex-flow: row wrap;
+            align-items: center;
+        }
+        .five .row{
+            flex-basis: 100%; /*子元素占据的主轴空间*/
+            display: flex;
+            justify-content: space-around;
+        }
+        .six{
+            flex-flow: row wrap;
+            justify-content: center;
+            align-items: center;
+        }
+        .seven{
+            flex-flow: column nowrap;
+            align-items: center;
+            justify-content: space-around;
+            
+        }
+        .seven .row:nth-child(1){
+           flex: 0 0 50%;  /*flex属性是flex-grow(放大比例默认0不会放大), flex-shrink(缩小比例默认1会缩小) 和 flex-basis(主轴占比默认auto)的简写，默认值为0 1 auto*/
+           display: flex;
+            margin-top: -10px;
+           
+        }
+        .seven .three{
+            justify-content: space-between;
+        }
+        .seven>.row:nth-child(2),.seven>.row:nth-child(3){
+            display: flex;
+            justify-content: center;
+        }
+        .eight{
+            justify-content: center;
+            align-items: center;
+        }
+        .nine{
+            flex-flow: row wrap;
+            justify-content: center;
+            align-items: center;
+        }
+        .Grid{
+            display:flex;
+            width:80%;
+            margin:20px auto;
+            background: #ccc;
+            border:1px solid #000;
+            text-align: center;
+        }
+        .Grid-cell{
+            flex: 1;
+            height:60px;
+            background: #eee;
+            
+            margin:10px;
+        
+        }
+        .u-1of10{
+            flex: 0 0 10%;  
+        }
+        .u-1of4{
+            flex: 0 0 25%;
+        }
+        .HolyGrail{
+            display: flex;
+            min-height: 100vh;  /*viewport height可视窗口100%*/
+            flex-flow: column nowrap;
+        }
+        header,footer{
+            flex: 1;
+            max-height: 100px;
+            background: #ccc;
+        }
+        .HolyGrail-body{
+            display: flex;
+            flex: 1;
+        }
+        .HolyGrail-content{
+            flex: 1;
+        }
+        .Grid-nav,.Grid-ads{
+            flex: 0 0 150px;
+
+            background: #eee;
+        }
+        .Grid-nav{
+            order: -1;  /*子元素排列顺序。数值越小，排列越靠前，默认为0*/
+        }
+        @media (max-width: 768px) {
+            .HolyGrail-body {
+                display: flex;
+                flex: 1;
+                flex-flow: column nowrap;
+            } 
+            
+        }
+        .InputAddOn {
+            display: flex;
+            width: 300px;
+            margin: 20px auto;
+            border:1px solid #333;
+        }
+        .InputAddOn-item{
+            padding: 4px;
+        }
+        .InputAddOn-field {
+            flex: 1;
+        }
+        .Media{
+            display: flex;
+            align-items: flex-start;
+            max-width: 80%;
+            border:1px solid #333;
+            margin: 20px auto;
+            padding: 4px;
+        }
+        .Media-figure{
+            max-width: 80px;
+            margin: 1em;
+            flex: 0 0 20px;
+        }
+        .Media-body{
+            flex: 1;
+            margin: 1em;
+            order: 2;
+        }
+    </style>
+</head>
+<body>
+    <h2>类似骰子布局</h2>
+<div class="box">
+
+    <div class="content one">
+        <span class="cirle"> </span>
+    </div>
+    <div class="content two">
+        <span class="cirle"> </span>
+        <span class="cirle"> </span>
+    </div>
+    <div class="content three">
+        <span class="cirle"> </span>
+        <span class="cirle"> </span>
+        <span class="cirle"> </span>
+    </div>
+    <div class="content four">
+        <div>
+            <span class="cirle"> </span>
+            <span class="cirle"> </span>
+        </div>
+        <div>
+            <span class="cirle"> </span>
+            <span class="cirle"> </span>
+        </div>
+    </div>
+    <div class="content five">
+        <div class="row">
+            <span class="cirle"> </span>
+            <span class="cirle"> </span>
+        </div>
+        <div class="row">
+            <span class="cirle"> </span>
+        </div>
+        <div class="row">
+            <span class="cirle"> </span>
+            <span class="cirle"> </span>
+        </div>
+    </div>
+    <div class="content six">
+        <div class="row">
+            <span class="cirle"> </span>
+            <span class="cirle"> </span>
+            <span class="cirle"> </span>
+        </div>
+        <div class="row">
+            <span class="cirle"> </span>
+            <span class="cirle"> </span>
+            <span class="cirle"> </span>
+        </div>
+    </div>
+    <div class="content seven">
+        <div class="row three">
+            <span class="cirle"> </span>
+            <span class="cirle"> </span>
+            <span class="cirle"> </span>
+        </div>
+        <div class="row">
+            <span class="cirle"> </span>
+            <span class="cirle"> </span>
+        </div>
+        <div class="row">
+            <span class="cirle"> </span>
+            <span class="cirle"> </span>
+        </div>
+    </div>
+    <div class="content eight">
+        <div>
+            <span class="cirle"> </span>
+            <span class="cirle"> </span>
+            <span class="cirle"> </span>
+            <span class="cirle"> </span>
+        </div>
+        <div>
+            <span class="cirle"> </span>
+            <span class="cirle"> </span>
+            <span class="cirle"> </span>
+            <span class="cirle"> </span>
+        </div>
+    </div>
+    <div class="content nine">
+        <span class="cirle"> </span>
+        <span class="cirle"> </span>
+        <span class="cirle"> </span>
+        <span class="cirle"> </span>
+        <span class="cirle"> </span>
+        <span class="cirle"> </span>
+        <span class="cirle"> </span>
+        <span class="cirle"> </span>
+        <span class="cirle"> </span>
+    </div>
+</div>
+<h2>百分比布局</h2>
+<div class="Grid">
+    <div class="Grid-cell u-1of10">...</div>
+    <div class="Grid-cell">...</div>
+    <div class="Grid-cell u-1of4">...</div>
+</div>
+<h2>类似双飞翼布局</h2>
+<div class="HolyGrail">
+    <header>header</header>
+    <div class="HolyGrail-body">
+        <main class="HolyGrail-content">main</main>
+        <nav class="Grid-nav">left</nav>
+        <aside class="Grid-ads">right</aside>
+    </div>
+    <footer>footer</footer>
+</div>
+    <h2>输入框</h2>
+<div class="InputAddOn">
+    <span class="InputAddOn-item">Icon</span>
+    <input class="InputAddOn-field">
+    <button class="InputAddOn-item">Send</button>
+</div>
+<h2>图片与文字</h2>
+<div class="Media">
+    <img class="Media-figure" src="logo.png" alt="">
+    <p class="Media-body">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sequi, explicabo. Porro perferendis deserunt, blanditiis cupiditate. Vitae rerum tenetur maiores similique molestiae harum modi minima numquam sapiente! Aut quaerat, repudiandae beatae.</p>
+</div>      
+</body>
+</html>
